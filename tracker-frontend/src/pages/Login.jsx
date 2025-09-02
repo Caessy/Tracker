@@ -38,67 +38,67 @@ const Login = () => {
 
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate>
-            
-            <Stack spacing={2}>
-{error && <Alert severity="error">{error}</Alert>}
+            <Stack spacing={2} useFlexGap>
+                {error && <Alert severity="error">{error}</Alert>}
 
 
-<TextField
-label="Username"
-required
-fullWidth
-margin="normal"
-value={username}
-autoComplete="username"
-onChange={(e) => setUsername(e.target.value)}
-/>
+            <TextField
+                label="Username"
+                required
+                fullWidth
+                margin="normal"
+                value={username}
+                autoComplete="username"
+                onChange={(e) => setUsername(e.target.value)}
+            />
 
 
-<TextField
-label="Password"
-type={showPassword ? 'text' : 'password'}
-required
-fullWidth
-margin="normal"
-value={password}
-autoComplete="current-password"
-onChange={(e) => setPassword(e.target.value)}
-InputProps={{
-endAdornment: (
-<InputAdornment position="end">
-<IconButton onClick={() => setShowPassword(!showPassword)} edge="end" aria-label="toggle password visibility">
-{showPassword ? <VisibilityOff /> : <Visibility />}
-</IconButton>
-</InputAdornment>
-),
-}}
-/>
+            <TextField
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                fullWidth
+                margin="normal"
+                value={password}
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" aria-label="toggle password visibility">
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
+            />
 
 
-<Button type="submit" variant="contained" fullWidth disabled={loading} size="large">
-{loading ? 'Logging in...' : 'Login'}
-</Button>
-            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                <Button
-                    component={Link}
-                    to="/register"
-                    variant="outlined"
-                    color="secondary"
-                >
-                    Register
-                </Button>
-                <Button
-                    component={Link}
-                    to="/forgot-password"
-                    variant="outlined"
-                    color="error"
-                >
-                    Forgot Password?
-                </Button>
+            <Button type="submit" variant="contained" fullWidth disabled={loading} size="large">
+            {loading ? 'Logging in...' : 'Login'}
+            </Button>
+
+                <Box sx={{ mt: { xs: 2, md: 1 }, display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    <Button
+                        component={Link}
+                        to="/register"
+                        variant="outlined"
+                        color="secondary"
+                    >
+                        Register
+                    </Button>
+                    <Button
+                        component={Link}
+                        to="/forgot-password"
+                        variant="outlined"
+                        color="error"
+                    >
+                        Forgot Password?
+                    </Button>
+                </Box>
+                </Stack>
             </Box>
-            </Stack>
-        </Box>
-    );
+        );
 };
 
 export default Login;
