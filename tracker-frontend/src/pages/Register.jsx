@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField, Button, Box, Typography, Alert, IconButton, InputAdornment, Snackbar } from '@mui/material';
+import { TextField, Button, Box, Typography, Alert, IconButton, InputAdornment, Snackbar, Stack } from '@mui/material';
 import api from '../services/api';
 import { Link, useNavigate } from 'react-router-dom';
 import {Visibility, VisibilityOff } from '@mui/icons-material';
@@ -46,9 +46,10 @@ const Register = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 10 }}>
-            <Typography variant="h5">Register</Typography>
+            
             {error && <Alert severity="error">{error}</Alert>}
             <form onSubmit={handleSubmit}>
+                <Stack spacing={2} useFlexGap>
                 <TextField
                     label="Username"
                     required
@@ -111,8 +112,20 @@ const Register = () => {
                 <Button type="submit" variant="contained" fullWidth disabled={loading}>
                     {loading ? 'Registering...' : 'Register'}
                 </Button>
+
+                <Box sx={{ mt: { xs: 2, md: 1 }, display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    <Button
+                        component={Link}
+                        to="/login"
+                        variant="outlined"
+                        color="secondary"
+                    >
+                        Back to Login
+                    </Button>
+                </Box>
+            </Stack>
             </form>
-            <Typography sx={{ mt: 2 }}><Link to="/login">Already Registered? Login</Link></Typography>
+                
             {/*Success Prompt */}
             <Snackbar
                 open={snackbarOpen}
