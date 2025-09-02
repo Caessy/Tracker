@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log Workout</title>
+  <link rel="stylesheet" href="./css/log.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" />
+</head>
+<body>
+  <div class="container">
+    <h1>Log Workout</h1>
+
+    <form id="log-form">
+      <label for="date">Date:</label>
+      <div class="date-row">
+        <input type="date" id="date" name="date" required />
+        <button type="button" id="today-btn">Today</button>
+      </div>
+
+      <label for="duration_min">Duration (minutes):</label>
+      <input type="number" id="duration_min" name="duration_min" min="1" required />
+
+      <label for="note">Note (optional):</label>
+      <textarea id="note" name="note" rows="2" placeholder="E.g., Focused on chest & triceps..."></textarea>
+
+      <div id="exercises-container"></div>
+
+      <button type="button" id="add-exercise-btn">+ Add Exercise</button>
+
+      <button type="submit" class="submit-btn">Submit Workout</button>
+    </form>
+  </div>
+
+  <script>
+    let exerciseCount = 0;
+    let exerciseTypes = [];
+
+    async function fetchExerciseTypes() {
+      try {
+        const res = await fetch('/all', { credentials: 'include' });
+        exerciseTypes = await res.json();
+      } catch (err) {
+        console.error('Failed to fetch exercise types');
+      }
+    }
+
+    function addExercise() {
+      const container = document.getElementById('exercises-container');
+      const index = exerciseCount++;
+
+      const exerciseDiv = document.createElement('div');
+      exerciseDiv.className = 'exercise-block';
+
+      const selectHTML = `
+        <select name="exercise_type_id_${index}" required>
+          <option value="">-- Select Exercise --</option>
+          ${exerciseTypes.map(e => `<option value="${e.id}">${e.name} (${e.muscle_group})</option>`).join('')}
+        </select>
+      `;
+
+      exerciseDiv.innerHTML = `
+        <h3>Exercise ${index + 1}</h3>
+        ${selectHTML}
+        <div class="sets-container" id="sets-${index}"></div>
+        <button type="button" class="add-set-btn" onclick="addSet(${index})">+ Add Set</button>
+        <hr/>
+      `;
+
+      container.appendChild(exerciseDiv);
+    }
+
+    function addSet(exerciseIndex) {
+      const setsContainer = document.getElementById(`sets-${exerciseIndex}`);
+      const setCount = setsContainer.children.length;
+
+      const setDiv = document.createElement('div');
+      setDiv.className = 'set-entry';
+      setDiv.innerHTML = `
+        <label>Set ${setCount + 1}: 
+          Reps <input type="number" name="reps_${exerciseIndex}_${setCount}" required />
+          × Weight <input type="number" name="weight_${exerciseIndex}_${setCount}" required /> kg
+          Rest <input type="number" name="rest_sec_${exerciseIndex}_${setCount}" /> sec
+          <input type="hidden" name="set_order_${exerciseIndex}_${setCount}" value="${setCount + 1}" />
+        </label>
+      `;
+      setsContainer.appendChild(setDiv);
+    }
+
+    document.getElementById('add-exercise-btn').addEventListener('click', addExercise);
+
+    document.getElementById('today-btn').addEventListener('click', () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').value = today;
+    });
+
+    document.getElementById('log-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const date = form.date.value;
+      const duration_min = parseInt(form.duration_min.value);
+      const note = form.note.value;
+
+      const exercises = [];
+
+      for (let i = 0; i < exerciseCount; i++) {
+        const exercise_type_id = parseInt(form[`exercise_type_id_${i}`]?.value);
+        if (!exercise_type_id) continue;
+
+        const sets = [];
+        let setIndex = 0;
+        while (form[`reps_${i}_${setIndex}`]) {
+          sets.push({
+            reps: parseInt(form[`reps_${i}_${setIndex}`].value),
+            weight: parseFloat(form[`weight_${i}_${setIndex}`].value),
+            rest_sec: parseInt(form[`rest_sec_${i}_${setIndex}`].value) || null,
+            set_order: parseInt(form[`set_order_${i}_${setIndex}`].value)
+          });
+          setIndex++;
+        }
+
+        exercises.push({ exercise_type_id, sets });
+      }
+
+      try {
+        const res = await fetch('/workouts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ date, duration_min, note, exercises })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert('Workout logged!');
+          window.location.href = 'dashboard.html';
+        } else {
+          alert(data.error || 'Failed to log workout.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error.');
+      }
+    });
+
+    window.onload = fetchExerciseTypes;
+  </script>
+</body>
+</html>

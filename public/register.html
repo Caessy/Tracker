@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitness Tracker - Register</title>
+  <link rel="stylesheet" href="./CSS/register.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <form id="register-form">
+      <input type="text" id="username" name="username" placeholder="Username" required />
+      <input type="email" id="email" name="email" placeholder="Email (optional)" />
+      <input type="password" id="password" name="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <div id="error-msg"></div>
+    <p>Already have an account? <a href="login.html" style="color:#fff; text-decoration: underline;">Login here</a></p>
+    <p><a href="welcome.html" style="color:#fff; text-decoration: underline;">Back to Welcome</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('register-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.textContent = '';
+      const username = form.username.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+
+      try {
+        const response = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password }),
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Registration successful! You can now login.');
+          window.location.href = 'login.html';
+        } else {
+          errorMsg.textContent = data.error || 'Registration failed.';
+        }
+      } catch (err) {
+        errorMsg.textContent = 'Network error. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>
