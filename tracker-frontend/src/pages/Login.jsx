@@ -38,7 +38,7 @@ const Login = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 10 }}>
-            <Typography variant="h5">Login</Typography>
+            
             {error && <Alert severity="error">{error}</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
@@ -74,10 +74,24 @@ const Login = () => {
                     {loading ? 'Logging in...' : 'Login'}
                 </Button>
             </form>
-            <Typography sx={{ mt: 2 }}>
-                <Link to="/register">Register</Link> | <Link to="/forgot-password">Forgot Password?</Link>
-            </Typography>
-            <Typography sx={{ mt: 2 }}><Link to="/">Back to Welcome Page</Link></Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                <Button
+                    component={Link}
+                    to="/register"
+                    variant="outlined"
+                    color="secondary"
+                >
+                    Register
+                </Button>
+                <Button
+                    component={Link}
+                    to="/forgot-password"
+                    variant="outlined"
+                    color="error"
+                >
+                    Forgot Password?
+                </Button>
+            </Box>
         </Box>
     );
 };

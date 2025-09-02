@@ -145,16 +145,3 @@ function DumbbellMark() {
   );
 }
 
-/* -----------------------------
- * Example usage in routes
- * -----------------------------
- * Replace your auth routes like this:
- *
- * <Route path="/login" element={<AuthLayout title="Login"><Login /></AuthLayout>} />
- * <Route path="/register" element={<AuthLayout title="Register"><Register /></AuthLayout>} />
- * <Route path="/forgot-password" element={<AuthLayout title="Forgot Password"><ForgotPassword /></AuthLayout>} />
- * <Route path="/mfa" element={<AuthLayout title="MFA Verification"><MFA /></AuthLayout>} />
- *
- * Tip: As you gradually refactor your individual pages, remove outer wrappers like
- * maxWidth/mt on the page itself since the layout already centers and pads content.
- */
