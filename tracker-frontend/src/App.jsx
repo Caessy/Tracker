@@ -19,7 +19,7 @@ import QuickWorkoutSession from './pages/dashboard/QuickWorkoutSession';
 import ExerciseDetailPage from './pages/dashboard/ExerciseDetailPage';
 import Instructor from './pages/dashboard/Instructor';
 import TraineeDetail from './pages/dashboard/TraineeDetail';
-import Account from './pages/dashboard/account';
+import Account from './pages/dashboard/Account';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import { useAuthStore } from './store/useAuthStore';
