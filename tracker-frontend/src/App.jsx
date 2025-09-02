@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import MFA from './pages/MFA';
 import DashboardLayout from './layouts/DashboardLayout';
+import AuthLayout from './layouts/AuthLayout';
 import Start from './pages/dashboard/Start';
 import Exercises from './pages/dashboard/Exercises';
 import Calendar from './pages/dashboard/Calendar';
@@ -43,10 +44,10 @@ function App() {
           <ConfirmDialog />
           <Routes>
             {/* Auth Pages */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/mfa" element={<MFA />} />
+            <Route path="/login" element={<AuthLayout title="login"><Login /></AuthLayout>} />
+            <Route path="/register" element={<AuthLayout title="Register"><Register /></AuthLayout>} />
+            <Route path="/forgot-password" element={<AuthLayout title="Forgot Password"><ForgotPassword /></AuthLayout>} />
+            <Route path="/mfa" element={<AuthLayout title="MFA"><MFA /></AuthLayout>} />
 
             {/* Dashboard (protected area) */}
             <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
