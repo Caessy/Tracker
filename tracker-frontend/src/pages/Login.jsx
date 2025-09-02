@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { TextField, Button, Box, Typography, Alert, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Button, Box, Typography, Alert, IconButton, InputAdornment, Stack } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import api from '../services/api';
 import { useAuthStore } from '../store/useAuthStore';
@@ -37,43 +37,47 @@ const Login = () => {
     };
 
     return (
-        <Box sx={{ maxWidth: 400, mx: 'auto', mt: 10 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate>
             
-            {error && <Alert severity="error">{error}</Alert>}
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Username"
-                    required
-                    fullWidth
-                    margin="normal"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <TextField
-                    label="Password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    fullWidth
-                    margin="normal"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }}
-                />
-                <Button type="submit" variant="contained" fullWidth disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
-                </Button>
-            </form>
+            <Stack spacing={2}>
+{error && <Alert severity="error">{error}</Alert>}
+
+
+<TextField
+label="Username"
+required
+fullWidth
+margin="normal"
+value={username}
+autoComplete="username"
+onChange={(e) => setUsername(e.target.value)}
+/>
+
+
+<TextField
+label="Password"
+type={showPassword ? 'text' : 'password'}
+required
+fullWidth
+margin="normal"
+value={password}
+autoComplete="current-password"
+onChange={(e) => setPassword(e.target.value)}
+InputProps={{
+endAdornment: (
+<InputAdornment position="end">
+<IconButton onClick={() => setShowPassword(!showPassword)} edge="end" aria-label="toggle password visibility">
+{showPassword ? <VisibilityOff /> : <Visibility />}
+</IconButton>
+</InputAdornment>
+),
+}}
+/>
+
+
+<Button type="submit" variant="contained" fullWidth disabled={loading} size="large">
+{loading ? 'Logging in...' : 'Login'}
+</Button>
             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                 <Button
                     component={Link}
@@ -92,6 +96,7 @@ const Login = () => {
                     Forgot Password?
                 </Button>
             </Box>
+            </Stack>
         </Box>
     );
 };
