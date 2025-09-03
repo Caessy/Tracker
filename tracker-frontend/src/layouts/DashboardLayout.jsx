@@ -53,6 +53,7 @@ export default function DashboardLayout() {
         { to: '/dashboard/progress', label: 'Progress', icon: <ShowChartIcon /> },
         { to: '/dashboard/instructor', label: 'Instructor', icon: <PersonIcon /> },
         { to: '/dashboard/account', label: 'Account', icon: <SettingsIcon /> },
+        { to: '/dashboard/help', label: 'Help', icon: <SettingsIcon /> },
     ];
 
     const drawer = (

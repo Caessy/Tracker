@@ -22,6 +22,7 @@ import Instructor from './pages/dashboard/Instructor';
 import TraineeDetail from './pages/dashboard/TraineeDetail';
 import Account from './pages/dashboard/Account';
 import ProtectedRoute from './components/ProtectedRoute';
+import HelpPage from './pages/dashboard/HelpPage';
 
 import { useAuthStore } from './store/useAuthStore';
 
@@ -61,6 +62,7 @@ function App() {
               <Route path="instructor" element={<Instructor />} />
               <Route path="instructor/trainee/:id" element={<TraineeDetail />} />
               <Route path="account" element={<Account />} />
+              <Route path='help' element={<HelpPage />} />
             </Route>
 
             {/* Default redirect */}
