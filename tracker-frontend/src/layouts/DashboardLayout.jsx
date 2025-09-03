@@ -29,6 +29,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
+import HelpIcon from '@mui/icons-material/Help';
 import { logoutCleanup } from '../utils/logoutCleanup';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
@@ -53,7 +54,7 @@ export default function DashboardLayout() {
         { to: '/dashboard/progress', label: 'Progress', icon: <ShowChartIcon /> },
         { to: '/dashboard/instructor', label: 'Instructor', icon: <PersonIcon /> },
         { to: '/dashboard/account', label: 'Account', icon: <SettingsIcon /> },
-        { to: '/dashboard/help', label: 'Help', icon: <SettingsIcon /> },
+        { to: '/dashboard/help', label: 'Help', icon: <HelpIcon /> },
     ];
 
     const drawer = (
